@@ -28,9 +28,116 @@ For more in the future and more awesomer...
 */
 
 
+
+
+import java.util.Random;
+import java.util.Scanner;
+
 public class Main {
+  private static final int SIZE = 3; // Change to 4 for a 4x4 board
+  private static final char EMPTY = '-';
+  private static final char PLAYER_SYMBOL = 'X';
+  private static final char COMPUTER_SYMBOL = 'O';
+  private static final char[][] board = new char[SIZE][SIZE];
+  private static boolean playerTurn = true;
+  private static final Scanner scanner = new Scanner(System.in);
+
   public static void main(String[] args) {
-    new Player();
-    System.out.println("TTT - RAN WITHOUT ERRORS");
+    initializeBoard();
+    displayBoard();
+
+    while (!checkWin() && !checkDraw()) {
+      if (playerTurn) {
+        playerMove();
+        } else {
+          computerMove();
+        }
+        displayBoard();
+        playerTurn = !playerTurn;
+      }
+
+      if (checkWin()) {
+        System.out.println(playerTurn ? "You win!" : "Computer wins!");
+      } else {
+        System.out.println("It's a draw!");
+    }
   }
+
+  private static void initializeBoard() {
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        board[i][j] = EMPTY;
+      }
+    }
+  }
+
+  private static void displayBoard() {
+    for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private static void playerMove() {
+        System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
+        int row = scanner.nextInt();
+        int col = scanner.nextInt();
+        if (isValidMove(row, col)) {
+            board[row][col] = PLAYER_SYMBOL;
+        } else {
+            System.out.println("Invalid move. Try again.");
+            playerMove();
+        }
+    }
+
+    private static void computerMove() {
+        Random random = new Random();
+        int row, col;
+        do {
+            row = random.nextInt(SIZE);
+            col = random.nextInt(SIZE);
+        } while (!isValidMove(row, col));
+        board[row][col] = COMPUTER_SYMBOL;
+    }
+
+    private static boolean checkWin() {
+        // Check rows
+        for (int i = 0; i < SIZE; i++) {
+            if (board[i][0] != EMPTY && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+                return true;
+            }
+        }
+        // Check columns
+        for (int j = 0; j < SIZE; j++) {
+            if (board[0][j] != EMPTY && board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
+                return true;
+            }
+        }
+        // Check diagonals
+        if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+            return true;
+        }
+        if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkDraw() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (board[i][j] == EMPTY) {
+                    return false; // If any cell is empty, game is not a draw
+                }
+            }
+        }
+        return true; // If no empty cell found, game is a draw
+    }
+
+    private static boolean isValidMove(int row, int col) {
+        return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == EMPTY;
+    }
 }
