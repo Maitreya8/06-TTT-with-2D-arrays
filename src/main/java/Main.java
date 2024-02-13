@@ -71,6 +71,7 @@ public class Main {
     }
   }
 
+
   private static void displayBoard() {
     for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -82,42 +83,39 @@ public class Main {
     }
 
     private static void playerMove() {
-        System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
-        int row = scanner.nextInt();
-        int col = scanner.nextInt();
-        if (isValidMove(row, col)) {
-            board[row][col] = PLAYER_SYMBOL;
-        } else {
-            System.out.println("Invalid move. Try again.");
-            playerMove();
-        }
+      System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
+      int row = scanner.nextInt();
+      int col = scanner.nextInt();
+      if (isValidMove(row, col)) {
+       board[row][col] = PLAYER_SYMBOL;
+      } else {
+      System.out.println("Invalid move. Try again.");
+      playerMove();
     }
+  }
 
-    private static void computerMove() {
-        Random random = new Random();
-        int row, col;
-        do {
-            row = random.nextInt(SIZE);
-            col = random.nextInt(SIZE);
-        } while (!isValidMove(row, col));
-        board[row][col] = COMPUTER_SYMBOL;
+  private static void computerMove() {
+    Random random = new Random();
+    int row, col;
+    do {
+      row = random.nextInt(SIZE);
+      col = random.nextInt(SIZE);
+    } while (!isValidMove(row, col));
+    board[row][col] = COMPUTER_SYMBOL;
+  }
+
+  private static boolean checkWin() {
+    for (int i = 0; i < SIZE; i++) { // Check rows
+      if (board[i][0] != EMPTY && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+        return true;
+      }
     }
-
-    private static boolean checkWin() {
-        // Check rows
-        for (int i = 0; i < SIZE; i++) {
-            if (board[i][0] != EMPTY && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
-                return true;
-            }
-        }
-        // Check columns
-        for (int j = 0; j < SIZE; j++) {
-            if (board[0][j] != EMPTY && board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
-                return true;
-            }
-        }
-        // Check diagonals
-        if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+    for (int j = 0; j < SIZE; j++) { // Check columns
+      if (board[0][j] != EMPTY && board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
+        return true;
+      }
+    }
+    if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) { // Check diagonals
             return true;
         }
         if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
