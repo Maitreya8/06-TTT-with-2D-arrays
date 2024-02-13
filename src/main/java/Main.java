@@ -27,9 +27,6 @@ For more in the future and more awesomer...
 5) You can make a new class for a turn, or a piece, or a screen painter
 */
 
-
-
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -49,17 +46,17 @@ public class Main {
     while (!checkWin() && !checkDraw()) {
       if (playerTurn) {
         playerMove();
-        } else {
-          computerMove();
-        }
-        displayBoard();
-        playerTurn = !playerTurn;
-      }
-
-      if (checkWin()) {
-        System.out.println(playerTurn ? "You win!" : "Computer wins!");
       } else {
-        System.out.println("It's a draw!");
+        computerMove();
+      }
+      displayBoard();
+      playerTurn = !playerTurn;
+    }
+
+    if (checkWin()) {
+      System.out.println(playerTurn ? "Computer wins!" : "YOU win!");
+    } else {
+      System.out.println("It's a draw!");
     }
   }
 
@@ -71,24 +68,23 @@ public class Main {
     }
   }
 
-
   private static void displayBoard() {
     for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+      for (int j = 0; j < SIZE; j++) {
+        System.out.print(board[i][j] + " ");
+      }
+      System.out.println();
     }
+    System.out.println();
+  }
 
-    private static void playerMove() {
-      System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
-      int row = scanner.nextInt();
-      int col = scanner.nextInt();
-      if (isValidMove(row, col)) {
-       board[row][col] = PLAYER_SYMBOL;
-      } else {
+  private static void playerMove() {
+    System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
+    int row = scanner.nextInt();
+    int col = scanner.nextInt();
+    if (isValidMove(row, col)) {
+      board[row][col] = PLAYER_SYMBOL;
+    } else {
       System.out.println("Invalid move. Try again.");
       playerMove();
     }
@@ -116,26 +112,26 @@ public class Main {
       }
     }
     if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) { // Check diagonals
-            return true;
-        }
-        if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
-            return true;
-        }
-        return false;
+      return true;
     }
+    if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+      return true;
+    }
+    return false;
+  }
 
-    private static boolean checkDraw() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (board[i][j] == EMPTY) {
-                    return false; // If any cell is empty, game is not a draw
-                }
-            }
+  private static boolean checkDraw() {
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        if (board[i][j] == EMPTY) {
+          return false; // If any cell is empty, game is not a draw
         }
-        return true; // If no empty cell found, game is a draw
+      }
     }
+    return true; // If no empty cell found, game is a draw
+  }
 
-    private static boolean isValidMove(int row, int col) {
-        return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == EMPTY;
-    }
+  private static boolean isValidMove(int row, int col) {
+    return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == EMPTY;
+  }
 }
