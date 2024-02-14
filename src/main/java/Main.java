@@ -36,23 +36,24 @@ public class Main {
   private static final char PLAYER_SYMBOL = 'X';
   private static final char COMPUTER_SYMBOL = 'O';
   private static final char[][] board = new char[SIZE][SIZE];
-  private static boolean playerTurn = true;
-  private static final Scanner scanner = new Scanner(System.in);
+  private static boolean playerTurn = true; //tracks whose turn it is
+  private static final Scanner scanner = new Scanner(System.in); // Scanner for user input
 
   public static void main(String[] args) {
-    initializeBoard();
-    displayBoard();
-
+    initializeBoard(); // Initialize the game board with empty cells
+    displayBoard(); // Display the initial empty board
+    // Main game loop
     while (!checkWin() && !checkDraw()) {
       if (playerTurn) {
-        playerMove();
+        playerMove(); // Player's turn
       } else {
-        computerMove();
+        computerMove(); // Computer's turn
       }
-      displayBoard();
-      playerTurn = !playerTurn;
+      displayBoard(); // Display the updated board after each move
+      playerTurn = !playerTurn; // Switch turns
     }
 
+    // Display the game result
     if (checkWin()) {
       System.out.println(playerTurn ? "Computer wins!" : "YOU win!");
     } else {
@@ -60,6 +61,7 @@ public class Main {
     }
   }
 
+  // Initialize the game board with empty cells
   private static void initializeBoard() {
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE; j++) {
@@ -68,6 +70,7 @@ public class Main {
     }
   }
 
+  // Display the current state of the game board
   private static void displayBoard() {
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE; j++) {
@@ -78,6 +81,7 @@ public class Main {
     System.out.println();
   }
 
+  // Player's move logic
   private static void playerMove() {
     System.out.println("Enter row and column numbers (0-" + (SIZE - 1) + "): ");
     int row = scanner.nextInt();
@@ -86,10 +90,11 @@ public class Main {
       board[row][col] = PLAYER_SYMBOL;
     } else {
       System.out.println("Invalid move. Try again.");
-      playerMove();
+      playerMove(); // Keep ask for valid input
     }
   }
 
+  // Computer's move logic
   private static void computerMove() {
     Random random = new Random();
     int row, col;
@@ -100,18 +105,22 @@ public class Main {
     board[row][col] = COMPUTER_SYMBOL;
   }
 
+  // Check for win conditions
   private static boolean checkWin() {
-    for (int i = 0; i < SIZE; i++) { // Check rows
+    // Check rows
+    for (int i = 0; i < SIZE; i++) {
       if (board[i][0] != EMPTY && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
         return true;
       }
     }
-    for (int j = 0; j < SIZE; j++) { // Check columns
+    // Check columns
+    for (int j = 0; j < SIZE; j++) {
       if (board[0][j] != EMPTY && board[0][j] == board[1][j] && board[1][j] == board[2][j]) {
         return true;
       }
     }
-    if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) { // Check diagonals
+    // Check diagonals
+    if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
       return true;
     }
     if (board[0][2] != EMPTY && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
@@ -120,6 +129,7 @@ public class Main {
     return false;
   }
 
+  // Check for a draw (all cells filled without a win)
   private static boolean checkDraw() {
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE; j++) {
@@ -131,6 +141,7 @@ public class Main {
     return true; // If no empty cell found, game is a draw
   }
 
+  // Check if a move is valid (within bounds and cell is empty)
   private static boolean isValidMove(int row, int col) {
     return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == EMPTY;
   }
