@@ -27,12 +27,19 @@ For more in the future and more awesomer...
 5) You can make a new class for a turn, or a piece, or a screen painter
 */
 
+// Laksh Patel
+// 06 - TTT with 2D Arrays
+// 2/14/2024
+// p6
+
+//Old code below...
+/*
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-  private static final int SIZE = 3; // Change to 4 for a 4x4 board
-  private static final char EMPTY = '-';
+  private static final int SIZE = 4; // Change to X for an XxX board
+  private static final char EMPTY = '-'; 
   private static final char PLAYER_SYMBOL = 'X';
   private static final char COMPUTER_SYMBOL = 'O';
   private static final char[][] board = new char[SIZE][SIZE];
@@ -62,7 +69,7 @@ public class Main {
   }
 
   // Initialize the game board with empty cells
-  private static void initializeBoard() {
+  public static void initializeBoard() {
     for (int i = 0; i < SIZE; i++) {
       for (int j = 0; j < SIZE; j++) {
         board[i][j] = EMPTY;
@@ -144,5 +151,23 @@ public class Main {
   // Check if a move is valid (within bounds and cell is empty)
   private static boolean isValidMove(int row, int col) {
     return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == EMPTY;
+  }
+}
+*/
+
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Welcome to 3D Tic-Tac-Toe!");
+    System.out.println("Choose number of players (1 to 4): ");
+    int numPlayers = scanner.nextInt();
+    if (numPlayers < 1 || numPlayers > 4) {
+      System.out.println("Invalid number of players. Exiting...");
+      return;
+    }
+    Game game = new Game(numPlayers);
+    game.play();
   }
 }
